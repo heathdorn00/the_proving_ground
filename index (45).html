@@ -1,0 +1,1269 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Proving Ground Foundation</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Oswald:wght@300;400;500;600;700&family=Source+Serif+4:ital,wght@0,300;0,400;0,600;1,300;1,400&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --ink: #0d1117;
+    --ink2: #1a2332;
+    --steel: #2c3e50;
+    --mist: #8899aa;
+    --fog: #c8d4de;
+    --white: #f4f2ed;
+    --paper: #ede9e0;
+    --accent: #c8392b;
+    --gold: #b8962e;
+    --blue: #1a4a7a;
+    --lightblue: #d6e8f5;
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--ink);
+    color: var(--white);
+    font-family: 'Source Serif 4', Georgia, serif;
+    font-size: 17px;
+    line-height: 1.75;
+    overflow-x: hidden;
+  }
+
+  /* ── SKILLS TICKERS ── */
+  .skills-ticker {
+    display: flex;
+    white-space: nowrap;
+    animation: skillsTicker 60s linear infinite;
+  }
+  .skills-ticker-gold {
+    animation-duration: 70s;
+    animation-direction: reverse;
+  }
+  .stk {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.12em;
+    color: #6aadea;
+    padding: 0 28px;
+    position: relative;
+    flex-shrink: 0;
+  }
+  .stk::after {
+    content: '◆';
+    position: absolute;
+    right: 0;
+    transform: translateX(50%);
+    font-size: 6px;
+    color: rgba(106,173,234,0.4);
+    top: 50%;
+    transform: translateY(-50%) translateX(50%);
+  }
+  .stk-gold { color: #b8962e; }
+  .stk-gold::after { color: rgba(184,150,46,0.4); }
+
+  @keyframes skillsTicker {
+    from { transform: translateX(0); }
+    to { transform: translateX(-50%); }
+  }
+
+  /* Push hero down to clear nav + 2 ticker strips */
+  .hero { padding-top: 128px; }
+
+  /* ── NAV ── */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 0 48px;
+    height: 64px;
+    background: rgba(13,17,23,0.92);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid rgba(200,180,120,0.15);
+  }
+  .nav-logo {
+    font-family: 'Oswald', sans-serif;
+    font-weight: 600;
+    font-size: 14px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--gold);
+  }
+  .nav-links { display: flex; gap: 36px; list-style: none; }
+  .nav-links a {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--mist);
+    text-decoration: none;
+    transition: color 0.2s;
+  }
+  .nav-links a:hover { color: var(--white); }
+
+  /* ── HERO ── */
+  .hero {
+    min-height: 100vh;
+    display: flex; flex-direction: column; justify-content: flex-end;
+    padding: 0 72px 96px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .hero-bg {
+    position: absolute; inset: 0;
+    background:
+      linear-gradient(180deg, rgba(13,17,23,0.3) 0%, rgba(13,17,23,0.7) 60%, var(--ink) 100%),
+      repeating-linear-gradient(
+        0deg,
+        transparent,
+        transparent 2px,
+        rgba(255,255,255,0.015) 2px,
+        rgba(255,255,255,0.015) 4px
+      );
+    z-index: 0;
+  }
+
+  /* Grid texture overlay */
+  .hero-bg::after {
+    content: '';
+    position: absolute; inset: 0;
+    background-image:
+      linear-gradient(rgba(184,150,46,0.06) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(184,150,46,0.06) 1px, transparent 1px);
+    background-size: 60px 60px;
+    z-index: 0;
+  }
+
+  .hero-eyebrow {
+    position: relative; z-index: 1;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 24px;
+    opacity: 0;
+    animation: fadeUp 0.8s 0.2s forwards;
+  }
+
+  .hero-title {
+    position: relative; z-index: 1;
+    font-family: 'Oswald', sans-serif;
+    font-size: clamp(64px, 10vw, 128px);
+    font-weight: 700;
+    line-height: 0.92;
+    letter-spacing: -0.01em;
+    text-transform: uppercase;
+    color: var(--white);
+    margin-bottom: 32px;
+    opacity: 0;
+    animation: fadeUp 0.8s 0.4s forwards;
+  }
+
+  .hero-title .accent-line {
+    display: block;
+    color: var(--accent);
+    -webkit-text-stroke: 0px;
+  }
+
+  .hero-sub {
+    position: relative; z-index: 1;
+    font-size: 20px;
+    font-weight: 300;
+    font-style: italic;
+    color: var(--fog);
+    max-width: 560px;
+    margin-bottom: 48px;
+    opacity: 0;
+    animation: fadeUp 0.8s 0.6s forwards;
+  }
+
+  .hero-cta {
+    position: relative; z-index: 1;
+    display: flex; gap: 16px; flex-wrap: wrap;
+    opacity: 0;
+    animation: fadeUp 0.8s 0.8s forwards;
+  }
+
+  .btn-primary {
+    font-family: 'Oswald', sans-serif;
+    font-weight: 500;
+    font-size: 13px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    padding: 14px 36px;
+    background: var(--accent);
+    color: var(--white);
+    text-decoration: none;
+    border: none; cursor: pointer;
+    transition: background 0.2s, transform 0.1s;
+    clip-path: polygon(0 0, calc(100% - 10px) 0, 100% 10px, 100% 100%, 10px 100%, 0 calc(100% - 10px));
+  }
+  .btn-primary:hover { background: #a02d22; transform: translateY(-1px); }
+
+  .btn-outline {
+    font-family: 'Oswald', sans-serif;
+    font-weight: 500;
+    font-size: 13px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    padding: 13px 36px;
+    background: transparent;
+    color: var(--fog);
+    text-decoration: none;
+    border: 1px solid rgba(200,190,160,0.3);
+    cursor: pointer;
+    transition: border-color 0.2s, color 0.2s;
+  }
+  .btn-outline:hover { border-color: var(--fog); color: var(--white); }
+
+  /* Scrolling ticker */
+  .ticker-wrap {
+    position: relative; z-index: 1;
+    border-top: 1px solid rgba(184,150,46,0.2);
+    border-bottom: 1px solid rgba(184,150,46,0.2);
+    overflow: hidden;
+    margin-top: 64px;
+    padding: 10px 0;
+  }
+  .ticker {
+    display: flex; gap: 0; white-space: nowrap;
+    animation: ticker 25s linear infinite;
+  }
+  .ticker-item {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--gold);
+    padding: 0 48px;
+  }
+  .ticker-item::before { content: '◆  '; }
+
+  /* ── SECTIONS ── */
+  section { padding: 120px 72px; }
+
+  .section-label {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 16px;
+    display: flex; align-items: center; gap: 12px;
+  }
+  .section-label::after {
+    content: '';
+    flex: 0 0 48px;
+    height: 1px;
+    background: var(--gold);
+    opacity: 0.5;
+  }
+
+  .section-title {
+    font-family: 'Oswald', sans-serif;
+    font-size: clamp(36px, 5vw, 56px);
+    font-weight: 600;
+    line-height: 1.05;
+    text-transform: uppercase;
+    letter-spacing: 0.02em;
+    color: var(--white);
+    margin-bottom: 32px;
+  }
+
+  .section-body {
+    font-size: 18px;
+    font-weight: 300;
+    color: var(--fog);
+    max-width: 640px;
+    line-height: 1.8;
+  }
+
+  /* ── MISSION ── */
+  #mission { background: var(--ink); }
+
+  .mission-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 96px;
+    align-items: center;
+    margin-top: 72px;
+  }
+
+  .stat-stack { display: flex; flex-direction: column; gap: 0; }
+  .stat-item {
+    padding: 32px 0;
+    border-bottom: 1px solid rgba(255,255,255,0.08);
+    display: flex; align-items: baseline; gap: 20px;
+  }
+  .stat-num {
+    font-family: 'Oswald', sans-serif;
+    font-size: 56px;
+    font-weight: 700;
+    color: var(--accent);
+    line-height: 1;
+    flex-shrink: 0;
+    width: 120px;
+  }
+  .stat-label {
+    font-family: 'Source Serif 4', serif;
+    font-size: 15px;
+    font-style: italic;
+    color: var(--mist);
+    line-height: 1.4;
+  }
+
+  blockquote {
+    border-left: 3px solid var(--accent);
+    padding: 24px 32px;
+    background: rgba(200,57,43,0.06);
+    margin: 32px 0;
+  }
+  blockquote p {
+    font-size: 20px;
+    font-style: italic;
+    font-weight: 300;
+    color: var(--white);
+    line-height: 1.65;
+  }
+
+  /* ── MODEL ── */
+  #model { background: var(--ink2); }
+
+  .age-track {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2px;
+    margin-top: 64px;
+    margin-bottom: 64px;
+  }
+
+  .age-block {
+    padding: 48px 36px;
+    position: relative;
+    overflow: hidden;
+  }
+  .age-block:nth-child(1) { background: rgba(26,74,122,0.3); border-top: 3px solid var(--blue); }
+  .age-block:nth-child(2) { background: rgba(184,150,46,0.15); border-top: 3px solid var(--gold); }
+  .age-block:nth-child(3) { background: rgba(200,57,43,0.15); border-top: 3px solid var(--accent); }
+
+  .age-range {
+    font-family: 'Oswald', sans-serif;
+    font-size: 48px;
+    font-weight: 700;
+    line-height: 1;
+    margin-bottom: 8px;
+  }
+  .age-block:nth-child(1) .age-range { color: #6aadea; }
+  .age-block:nth-child(2) .age-range { color: var(--gold); }
+  .age-block:nth-child(3) .age-range { color: #e87060; }
+
+  .age-phase {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--mist);
+    margin-bottom: 20px;
+  }
+
+  .age-desc {
+    font-size: 16px;
+    color: var(--fog);
+    line-height: 1.65;
+  }
+
+  /* Badge / Skills tracks */
+  .tracks {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 24px;
+    margin-top: 48px;
+  }
+
+  .track-card {
+    padding: 40px;
+    border: 1px solid rgba(255,255,255,0.08);
+    position: relative;
+  }
+
+  .track-card::before {
+    content: '';
+    position: absolute; top: 0; left: 0; right: 0;
+    height: 3px;
+  }
+  .track-card.blue::before { background: var(--blue); }
+  .track-card.gold::before { background: var(--gold); }
+
+  .track-title {
+    font-family: 'Oswald', sans-serif;
+    font-size: 20px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    margin-bottom: 24px;
+    color: var(--white);
+  }
+
+  .skill-list { list-style: none; display: flex; flex-direction: column; gap: 10px; }
+  .skill-list li {
+    font-size: 15px;
+    color: var(--fog);
+    padding-left: 20px;
+    position: relative;
+    line-height: 1.5;
+  }
+  .skill-list li::before {
+    content: '▸';
+    position: absolute; left: 0;
+    color: var(--gold);
+    font-size: 11px;
+    top: 4px;
+  }
+
+  /* Badge progression */
+  .badge-row {
+    display: flex; align-items: center; gap: 0;
+    margin-top: 48px;
+    overflow: hidden;
+  }
+  .badge-step {
+    flex: 1;
+    padding: 24px 28px;
+    background: rgba(255,255,255,0.03);
+    border: 1px solid rgba(255,255,255,0.06);
+    text-align: center;
+    position: relative;
+  }
+  .badge-step + .badge-step { border-left: none; }
+  .badge-icon {
+    font-family: 'Oswald', sans-serif;
+    font-size: 32px;
+    font-weight: 700;
+    color: var(--gold);
+    display: block;
+    margin-bottom: 4px;
+  }
+  .badge-name {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--mist);
+    display: block;
+    margin-bottom: 8px;
+  }
+  .badge-desc {
+    font-size: 13px;
+    color: var(--fog);
+    opacity: 0.8;
+  }
+  .badge-arrow {
+    width: 32px; flex-shrink: 0;
+    text-align: center;
+    color: var(--gold);
+    font-size: 18px;
+    opacity: 0.5;
+  }
+
+  /* ── MILITARY ── */
+  #military { background: var(--ink); }
+
+  .military-grid {
+    display: grid;
+    grid-template-columns: 3fr 2fr;
+    gap: 80px;
+    margin-top: 64px;
+    align-items: start;
+  }
+
+  .pull-quote {
+    font-family: 'Oswald', sans-serif;
+    font-size: clamp(28px, 3.5vw, 42px);
+    font-weight: 300;
+    line-height: 1.25;
+    color: var(--white);
+    margin-bottom: 40px;
+  }
+  .pull-quote em { color: var(--accent); font-style: normal; font-weight: 600; }
+
+  .rick-card {
+    background: rgba(184,150,46,0.06);
+    border: 1px solid rgba(184,150,46,0.2);
+    padding: 40px;
+  }
+  .rick-card-label {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 16px;
+  }
+  .rick-card-name {
+    font-family: 'Oswald', sans-serif;
+    font-size: 28px;
+    font-weight: 600;
+    text-transform: uppercase;
+    color: var(--white);
+    margin-bottom: 4px;
+  }
+  .rick-card-title {
+    font-size: 14px;
+    font-style: italic;
+    color: var(--mist);
+    margin-bottom: 24px;
+  }
+  .rick-card-body {
+    font-size: 15px;
+    color: var(--fog);
+    line-height: 1.7;
+  }
+  .rick-card-divider {
+    height: 1px;
+    background: rgba(184,150,46,0.2);
+    margin: 24px 0;
+  }
+  .center-one-label {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 6px;
+  }
+  .center-one-name {
+    font-family: 'Oswald', sans-serif;
+    font-size: 18px;
+    font-weight: 600;
+    color: var(--white);
+  }
+
+  .vet-benefits {
+    display: flex; flex-direction: column; gap: 20px;
+    margin-top: 32px;
+  }
+  .vet-item { display: flex; gap: 16px; align-items: flex-start; }
+  .vet-dot {
+    width: 8px; height: 8px;
+    background: var(--accent);
+    flex-shrink: 0;
+    margin-top: 8px;
+    clip-path: polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%);
+  }
+  .vet-text { font-size: 16px; color: var(--fog); line-height: 1.6; }
+  .vet-text strong { color: var(--white); font-weight: 400; }
+
+  /* ── PARTNERS ── */
+  #partners { background: var(--ink2); }
+
+  .partner-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2px;
+    margin-top: 64px;
+  }
+
+  .partner-card {
+    padding: 40px 36px;
+    background: rgba(255,255,255,0.02);
+    border-top: 2px solid transparent;
+    transition: background 0.2s;
+  }
+  .partner-card:hover { background: rgba(255,255,255,0.05); }
+  .partner-card.gov { border-top-color: var(--accent); }
+  .partner-card.tech { border-top-color: #3a8fc7; }
+  .partner-card.trades { border-top-color: var(--gold); }
+
+  .partner-type {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    margin-bottom: 12px;
+  }
+  .partner-card.gov .partner-type { color: var(--accent); }
+  .partner-card.tech .partner-type { color: #3a8fc7; }
+  .partner-card.trades .partner-type { color: var(--gold); }
+
+  .partner-title {
+    font-family: 'Oswald', sans-serif;
+    font-size: 22px;
+    font-weight: 600;
+    text-transform: uppercase;
+    color: var(--white);
+    margin-bottom: 16px;
+  }
+
+  .partner-list { list-style: none; display: flex; flex-direction: column; gap: 8px; }
+  .partner-list li { font-size: 15px; color: var(--fog); padding-left: 16px; position: relative; }
+  .partner-list li::before { content: '—'; position: absolute; left: 0; color: var(--mist); font-size: 12px; top: 3px; }
+
+  /* ── FACILITIES ── */
+  #facilities { background: var(--ink); }
+
+  .facility-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 48px;
+    margin-top: 64px;
+  }
+
+  .facility-card {
+    padding: 48px;
+    border: 1px solid rgba(255,255,255,0.07);
+    position: relative;
+    overflow: hidden;
+  }
+  .facility-card::after {
+    content: '';
+    position: absolute; bottom: 0; right: 0;
+    width: 80px; height: 80px;
+    background: rgba(184,150,46,0.05);
+    clip-path: polygon(100% 0, 100% 100%, 0 100%);
+  }
+
+  .facility-num {
+    font-family: 'Oswald', sans-serif;
+    font-size: 80px;
+    font-weight: 700;
+    color: rgba(255,255,255,0.04);
+    line-height: 1;
+    margin-bottom: -16px;
+    letter-spacing: -0.04em;
+  }
+  .facility-title {
+    font-family: 'Oswald', sans-serif;
+    font-size: 22px;
+    font-weight: 600;
+    text-transform: uppercase;
+    color: var(--white);
+    margin-bottom: 12px;
+  }
+  .facility-body { font-size: 15px; color: var(--fog); line-height: 1.7; }
+
+  /* ── CONTACT / CTA ── */
+  #contact {
+    background: var(--ink2);
+    text-align: center;
+    padding: 120px 72px;
+  }
+
+  .contact-title {
+    font-family: 'Oswald', sans-serif;
+    font-size: clamp(40px, 6vw, 72px);
+    font-weight: 700;
+    text-transform: uppercase;
+    line-height: 0.95;
+    margin-bottom: 24px;
+  }
+
+  .contact-sub {
+    font-size: 18px;
+    font-style: italic;
+    font-weight: 300;
+    color: var(--fog);
+    margin-bottom: 48px;
+  }
+
+  .contact-info {
+    display: flex; justify-content: center; gap: 64px;
+    flex-wrap: wrap;
+    margin-top: 64px;
+    padding-top: 48px;
+    border-top: 1px solid rgba(255,255,255,0.08);
+  }
+
+  .contact-item {
+    text-align: center;
+  }
+  .contact-item-label {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--mist);
+    margin-bottom: 6px;
+  }
+  .contact-item-value {
+    font-family: 'Oswald', sans-serif;
+    font-size: 18px;
+    font-weight: 400;
+    color: var(--white);
+  }
+
+  /* ── FOOTER ── */
+  footer {
+    background: rgba(0,0,0,0.5);
+    padding: 32px 72px;
+    display: flex; justify-content: space-between; align-items: center;
+    border-top: 1px solid rgba(255,255,255,0.05);
+  }
+  .footer-left {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.12em;
+    color: var(--mist);
+  }
+  .footer-right {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 11px;
+    color: var(--mist);
+  }
+  .footer-right a { color: var(--gold); text-decoration: none; }
+
+  /* ── DIVIDER ── */
+  .rule {
+    height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(184,150,46,0.3), transparent);
+    margin: 0 72px;
+  }
+
+  /* ── ANIMATIONS ── */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(24px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  @keyframes ticker {
+    from { transform: translateX(0); }
+    to { transform: translateX(-50%); }
+  }
+
+  .reveal {
+    opacity: 0;
+    transform: translateY(32px);
+    transition: opacity 0.7s ease, transform 0.7s ease;
+  }
+  .reveal.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 900px) {
+    nav { padding: 0 24px; }
+    .nav-links { display: none; }
+    section { padding: 80px 24px; }
+    .hero { padding: 0 24px 72px; }
+    .mission-grid,
+    .military-grid,
+    .facility-row,
+    .tracks { grid-template-columns: 1fr; gap: 40px; }
+    .age-track,
+    .partner-grid { grid-template-columns: 1fr; gap: 2px; }
+    footer { flex-direction: column; gap: 12px; text-align: center; }
+    .contact-info { gap: 32px; }
+    .rule { margin: 0 24px; }
+    .badge-row { flex-direction: column; }
+    .badge-arrow { transform: rotate(90deg); }
+    /* Impact banner responsive */
+    #impact-stats { grid-template-columns: 1fr 1fr !important; }
+    #impact-banner { padding: 0 24px !important; }
+    #impact-quote { padding: 32px 24px !important; }
+    #impact-cta { padding: 32px 24px !important; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-logo">The Proving Ground</div>
+  <ul class="nav-links">
+    <li><a href="#mission">Mission</a></li>
+    <li><a href="#model">The Model</a></li>
+    <li><a href="#military">Military</a></li>
+    <li><a href="#partners">Partners</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+</nav>
+
+<!-- SKILLS TICKER STRIP — fixed below nav -->
+<div style="position:fixed; top:64px; left:0; right:0; z-index:99; background:rgba(13,17,23,0.96); backdrop-filter:blur(10px); border-bottom:1px solid rgba(184,150,46,0.2); overflow:hidden; height:32px; display:flex; align-items:center;">
+  <!-- Blue label -->
+  <div style="flex-shrink:0; padding:0 14px; height:100%; display:flex; align-items:center; background:rgba(26,74,122,0.5); border-right:1px solid rgba(26,74,122,0.5); z-index:2;">
+    <span style="font-family:'IBM Plex Mono',monospace; font-size:9px; letter-spacing:0.18em; text-transform:uppercase; color:#6aadea; white-space:nowrap;">Blue Collar</span>
+  </div>
+  <!-- Blue skills -->
+  <div style="flex:1; overflow:hidden; position:relative;">
+    <div class="skills-ticker skills-ticker-blue">
+      <span class="stk">Welding & metal fabrication</span><span class="stk">Auto mechanics & oil changes</span><span class="stk">Small engine repair</span><span class="stk">Motorcycle & ATV repair</span><span class="stk">Boat & watercraft maintenance</span><span class="stk">Heavy equipment operation</span><span class="stk">Appliance repair</span><span class="stk">Carpentry, painting & home repair</span><span class="stk">Plumbing, electrical & HVAC</span><span class="stk">Drywall & insulation</span><span class="stk">Window & door installation</span><span class="stk">Rock, stone masonry, tile & flooring</span><span class="stk">Roofing & gutters</span><span class="stk">Concrete & asphalt patching</span><span class="stk">Fence building & repair</span><span class="stk">Lock & key basics</span><span class="stk">Solar panel installation</span><span class="stk">Agricultural skills & tractors</span><span class="stk">Irrigation & sprinkler systems</span><span class="stk">Lawn & landscaping</span><span class="stk">Wildfire defensible space prep</span><span class="stk">Beekeeping & pollinator care</span><span class="stk">Water well & pump maintenance</span><span class="stk">Pest control basics</span><span class="stk">Pool & spa maintenance</span><span class="stk">Butchering & meat processing</span><span class="stk">Food preservation & canning</span><span class="stk">Elder care & community check-ins</span>
+      <span class="stk">Welding & metal fabrication</span><span class="stk">Auto mechanics & oil changes</span><span class="stk">Small engine repair</span><span class="stk">Motorcycle & ATV repair</span><span class="stk">Boat & watercraft maintenance</span><span class="stk">Heavy equipment operation</span><span class="stk">Appliance repair</span><span class="stk">Carpentry, painting & home repair</span><span class="stk">Plumbing, electrical & HVAC</span><span class="stk">Drywall & insulation</span><span class="stk">Window & door installation</span><span class="stk">Rock, stone masonry, tile & flooring</span><span class="stk">Roofing & gutters</span><span class="stk">Concrete & asphalt patching</span><span class="stk">Fence building & repair</span><span class="stk">Lock & key basics</span><span class="stk">Solar panel installation</span><span class="stk">Agricultural skills & tractors</span><span class="stk">Irrigation & sprinkler systems</span><span class="stk">Lawn & landscaping</span><span class="stk">Wildfire defensible space prep</span><span class="stk">Beekeeping & pollinator care</span><span class="stk">Water well & pump maintenance</span><span class="stk">Pest control basics</span><span class="stk">Pool & spa maintenance</span><span class="stk">Butchering & meat processing</span><span class="stk">Food preservation & canning</span><span class="stk">Elder care & community check-ins</span>
+    </div>
+  </div>
+</div>
+
+<!-- WHITE COLLAR TICKER STRIP — fixed below blue ticker -->
+<div style="position:fixed; top:96px; left:0; right:0; z-index:98; background:rgba(20,18,13,0.96); backdrop-filter:blur(10px); border-bottom:1px solid rgba(184,150,46,0.3); overflow:hidden; height:32px; display:flex; align-items:center;">
+  <div style="flex-shrink:0; padding:0 14px; height:100%; display:flex; align-items:center; background:rgba(184,150,46,0.18); border-right:1px solid rgba(184,150,46,0.3); z-index:2;">
+    <span style="font-family:'IBM Plex Mono',monospace; font-size:9px; letter-spacing:0.18em; text-transform:uppercase; color:#b8962e; white-space:nowrap;">White Collar</span>
+  </div>
+  <div style="flex:1; overflow:hidden; position:relative;">
+    <div class="skills-ticker skills-ticker-gold">
+      <span class="stk stk-gold">Computer setup, repair & IT</span><span class="stk stk-gold">AI tools & automation</span><span class="stk stk-gold">Coding & cybersecurity</span><span class="stk stk-gold">Drone operation & aerial photography</span><span class="stk stk-gold">3D modeling & printing</span><span class="stk stk-gold">Data analysis & spreadsheets</span><span class="stk stk-gold">Supply chain & logistics</span><span class="stk stk-gold">Video editing & production</span><span class="stk stk-gold">Social media strategy & marketing</span><span class="stk stk-gold">Video game design & development</span><span class="stk stk-gold">Music production & beat making</span><span class="stk stk-gold">Podcast production & audio</span><span class="stk stk-gold">Photography & photo editing</span><span class="stk stk-gold">Animation & motion graphics</span><span class="stk stk-gold">Graphic design & logo creation</span><span class="stk stk-gold">Public speaking & storytelling</span><span class="stk stk-gold">Starting a business with AI</span><span class="stk stk-gold">Financial literacy & entrepreneurship</span><span class="stk stk-gold">Basic accounting & bookkeeping</span><span class="stk stk-gold">E-commerce & online stores</span><span class="stk stk-gold">Customer service & sales</span><span class="stk stk-gold">Real estate fundamentals</span><span class="stk stk-gold">Grant writing & nonprofit admin</span><span class="stk stk-gold">Nonprofit fundraising & development</span><span class="stk stk-gold">Legal basics & tenant rights</span><span class="stk stk-gold">Paralegal & legal document prep</span><span class="stk stk-gold">Resume & interview coaching</span>
+      <span class="stk stk-gold">Computer setup, repair & IT</span><span class="stk stk-gold">AI tools & automation</span><span class="stk stk-gold">Coding & cybersecurity</span><span class="stk stk-gold">Drone operation & aerial photography</span><span class="stk stk-gold">3D modeling & printing</span><span class="stk stk-gold">Data analysis & spreadsheets</span><span class="stk stk-gold">Supply chain & logistics</span><span class="stk stk-gold">Video editing & production</span><span class="stk stk-gold">Social media strategy & marketing</span><span class="stk stk-gold">Video game design & development</span><span class="stk stk-gold">Music production & beat making</span><span class="stk stk-gold">Podcast production & audio</span><span class="stk stk-gold">Photography & photo editing</span><span class="stk stk-gold">Animation & motion graphics</span><span class="stk stk-gold">Graphic design & logo creation</span><span class="stk stk-gold">Public speaking & storytelling</span><span class="stk stk-gold">Starting a business with AI</span><span class="stk stk-gold">Financial literacy & entrepreneurship</span><span class="stk stk-gold">Basic accounting & bookkeeping</span><span class="stk stk-gold">E-commerce & online stores</span><span class="stk stk-gold">Customer service & sales</span><span class="stk stk-gold">Real estate fundamentals</span><span class="stk stk-gold">Grant writing & nonprofit admin</span><span class="stk stk-gold">Nonprofit fundraising & development</span><span class="stk stk-gold">Legal basics & tenant rights</span><span class="stk stk-gold">Paralegal & legal document prep</span><span class="stk stk-gold">Resume & interview coaching</span>
+    </div>
+  </div>
+</div>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-bg"></div>
+  <p class="hero-eyebrow">A Foundation for American Youth</p>
+  <h1 class="hero-title">
+    The<br>
+    Proving<br>
+    <span class="accent-line">Ground</span>
+  </h1>
+  <p class="hero-sub">Where potential meets purpose. Every kid deserves a place to prove what they're made of.</p>
+
+  <!-- Why This Matters Now — visible above the fold -->
+  <div style="border-left:4px solid var(--accent); padding:24px 32px; background:rgba(200,57,43,0.1); max-width:720px; margin-bottom:36px; opacity:0; animation:fadeUp 0.8s 0.85s forwards;">
+    <div style="font-family:'IBM Plex Mono',monospace; font-size:10px; letter-spacing:0.25em; text-transform:uppercase; color:var(--accent); margin-bottom:10px;">◆ Why This Matters Now</div>
+    <p style="font-family:'Oswald',sans-serif; font-size:clamp(16px,2vw,22px); font-weight:300; line-height:1.4; color:var(--white);">
+      Every day we wait, another kid — from a rural reservation, an urban neighborhood, a trailer park, or a barrio — hits 16 with no skills, no mentor, and no path forward.
+      <span style="color:var(--accent); font-weight:600;"> We are actively raising support to build Center One. Join us.</span>
+    </p>
+  </div>
+
+  <div class="hero-cta">
+    <a href="#contact" class="btn-primary">Become a Sponsor</a>
+    <a href="#mission" class="btn-outline">Learn the Mission</a>
+  </div>
+</section>
+
+<div class="rule"></div>
+
+<!-- IMPACT BANNER -->
+<div style="background: var(--ink2); padding: 0 72px;">
+  <div style="display:grid; grid-template-columns:repeat(4,1fr); border-top: 1px solid rgba(255,255,255,0.06);">
+    <div style="padding:40px 36px; border-right:1px solid rgba(255,255,255,0.06); text-align:center;">
+      <div style="font-family:'Oswald',sans-serif; font-size:52px; font-weight:700; color:var(--accent); line-height:1;">16M</div>
+      <div style="font-family:'Source Serif 4',serif; font-size:14px; font-style:italic; color:var(--mist); margin-top:6px; line-height:1.4;">American youth living in poverty with no workforce pathway</div>
+    </div>
+    <div style="padding:40px 36px; border-right:1px solid rgba(255,255,255,0.06); text-align:center;">
+      <div style="font-family:'Oswald',sans-serif; font-size:52px; font-weight:700; color:var(--gold); line-height:1;">1 in 5</div>
+      <div style="font-family:'Source Serif 4',serif; font-size:14px; font-style:italic; color:var(--mist); margin-top:6px; line-height:1.4;">kids drops out before earning a diploma or a single credential</div>
+    </div>
+    <div style="padding:40px 36px; border-right:1px solid rgba(255,255,255,0.06); text-align:center;">
+      <div style="font-family:'Oswald',sans-serif; font-size:52px; font-weight:700; color:#6aadea; line-height:1;">$0</div>
+      <div style="font-family:'Source Serif 4',serif; font-size:14px; font-style:italic; color:var(--mist); margin-top:6px; line-height:1.4;">cost to youth who attend — skills, badges, and mentorship are fully funded</div>
+    </div>
+    <div style="padding:40px 36px; text-align:center;">
+      <div style="font-family:'Oswald',sans-serif; font-size:52px; font-weight:700; color:var(--white); line-height:1;">Now</div>
+      <div style="font-family:'Source Serif 4',serif; font-size:14px; font-style:italic; color:var(--mist); margin-top:6px; line-height:1.4;">is the time — Center One is seeking founding sponsors, donors, and partners</div>
+    </div>
+  </div>
+
+  <!-- Fundraising CTA bar -->
+  <div style="background: rgba(184,150,46,0.08); border:1px solid rgba(184,150,46,0.2); padding:40px 48px; display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:24px; margin-top:0; border-left:none; border-right:none;">
+    <div>
+      <div style="font-family:'Oswald',sans-serif; font-size:24px; font-weight:600; color:var(--white); margin-bottom:6px;">Help Us Build Center One — The Rick Asket Center</div>
+      <div style="font-family:'Source Serif 4',serif; font-size:15px; font-style:italic; color:var(--fog);">We are actively seeking founding donors, corporate sponsors, veteran coaches, and facility partners. Every contribution builds something that lasts.</div>
+    </div>
+    <div style="display:flex; gap:12px; flex-shrink:0; flex-wrap:wrap;">
+      <a href="#contact" style="font-family:'Oswald',sans-serif; font-weight:500; font-size:13px; letter-spacing:0.15em; text-transform:uppercase; padding:14px 32px; background:var(--gold); color:var(--ink); text-decoration:none; clip-path:polygon(0 0,calc(100% - 8px) 0,100% 8px,100% 100%,8px 100%,0 calc(100% - 8px)); transition:opacity 0.2s;" onmouseover="this.style.opacity='0.8'" onmouseout="this.style.opacity='1'">Become a Sponsor</a>
+      <a href="mailto:hdorn@digitaltransformations.com" style="font-family:'Oswald',sans-serif; font-weight:500; font-size:13px; letter-spacing:0.15em; text-transform:uppercase; padding:13px 32px; background:transparent; color:var(--fog); text-decoration:none; border:1px solid rgba(200,190,160,0.3); transition:border-color 0.2s, color 0.2s;" onmouseover="this.style.borderColor='var(--fog)'; this.style.color='var(--white)'" onmouseout="this.style.borderColor='rgba(200,190,160,0.3)'; this.style.color='var(--fog)'">Contact Heath Dorn</a>
+    </div>
+  </div>
+
+</div>
+
+<div class="rule"></div>
+
+<!-- MISSION -->
+<section id="mission">
+  <p class="section-label reveal">01 — Mission</p>
+  <h2 class="section-title reveal">Built for the<br>kids who have<br>something to prove.</h2>
+  <div class="mission-grid">
+    <div class="reveal">
+      <p class="section-body">Millions of American kids grow up in communities where opportunity is invisible. In urban neighborhoods, rural towns, Native American reservations, Native Hawaiian communities, and Latino barrios alike, youth face the same deficit: no access to skills training, no mentors, and no place that says <em style="color:var(--white); font-style:italic;">you belong here and you are capable of more.</em></p>
+      <blockquote style="margin-top:32px">
+        <p>The Proving Ground acquires and rehabilitates underutilized buildings in distressed communities — urban and rural — and converts them into full-service youth skill centers. Starting at age 10.</p>
+      </blockquote>
+      <p class="section-body">We serve every underserved community in America — urban neighborhoods, rural towns, Native American and Native Hawaiian tribes, Latino communities, and Appalachian hollows alike. The ground levels everyone.</p>
+    </div>
+    <div class="stat-stack reveal">
+      <div class="stat-item">
+        <div class="stat-num">10</div>
+        <div class="stat-label">Age when training begins — before disengagement sets in</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-num">2</div>
+        <div class="stat-label">Tracks — blue collar trades and white collar tech skills</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-num">3</div>
+        <div class="stat-label">Badge tiers — Apprentice, Journeyman, Corps — earned through action</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-num">∞</div>
+        <div class="stat-label">Graduates who become coaches, closing the loop from within</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="rule"></div>
+
+<!-- MODEL -->
+<section id="model">
+  <p class="section-label reveal">02 — The Model</p>
+  <h2 class="section-title reveal">Learn it. Do it.<br>Earn it. Teach it.</h2>
+  <p class="section-body reveal">Our merit badge system is modeled on military progression — you advance by demonstrating competence, not by showing up. Each skill has three tiers. Each tier earns a badge. The badges build a portfolio that opens real doors.</p>
+
+  <div class="age-track reveal">
+    <div class="age-block">
+      <div class="age-range">10–13</div>
+      <div class="age-phase">Phase I — Learn & Train</div>
+      <div class="age-desc">Youth enter the center and begin structured skills training across both tracks. Computer labs, tool bays, and onsite coaches — all under one roof.</div>
+    </div>
+    <div class="age-block">
+      <div class="age-range">14–15</div>
+      <div class="age-phase">Phase II — Deploy & Serve</div>
+      <div class="age-desc">Trained youth deploy into their communities — fixing porches, setting up computers for neighbors, assisting on farms. Earnings go toward college savings or a first vehicle.</div>
+    </div>
+    <div class="age-block">
+      <div class="age-range">16+</div>
+      <div class="age-phase">Phase III — Lead & Launch</div>
+      <div class="age-desc">Advanced graduates become site coaches themselves. Some launch businesses. Some enter trade apprenticeships. Some go to college. All leave with credentials and a story.</div>
+    </div>
+  </div>
+
+  <!-- SKILLS TRACKS — full expanded layout -->
+  <div style="display:grid; grid-template-columns:1fr 1fr; gap:24px; margin-top:48px;">
+
+    <!-- BLUE COLLAR -->
+    <div style="border:1px solid rgba(26,74,122,0.4); border-top:3px solid #1a4a7a; padding:0;">
+      <div style="padding:28px 32px 20px; border-bottom:1px solid rgba(255,255,255,0.06);">
+        <div style="font-family:'Oswald',sans-serif; font-size:20px; font-weight:600; text-transform:uppercase; letter-spacing:0.08em; color:var(--white); margin-bottom:4px;">Blue Collar Track</div>
+        <div style="font-family:'IBM Plex Mono',monospace; font-size:10px; letter-spacing:0.2em; color:#6aadea;">HANDS-ON TRADES & COMMUNITY SERVICE</div>
+      </div>
+
+      <div style="padding:20px 32px 28px;">
+        <div style="font-family:'IBM Plex Mono',monospace; font-size:9px; letter-spacing:0.2em; text-transform:uppercase; color:#6aadea; margin-bottom:10px;">Vehicles & Mechanical</div>
+        <div style="display:flex; flex-wrap:wrap; gap:6px; margin-bottom:20px;">
+          <span style="font-size:12px; color:var(--fog); background:rgba(26,74,122,0.2); padding:4px 10px; border:0.5px solid rgba(26,74,122,0.4);">Auto mechanics & oil changes</span>
+          <span style="font-size:12px; color:var(--fog); background:rgba(26,74,122,0.2); padding:4px 10px; border:0.5px solid rgba(26,74,122,0.4);">Small engine repair</span>
+          <span style="font-size:12px; color:var(--fog); background:rgba(26,74,122,0.2); padding:4px 10px; border:0.5px solid rgba(26,74,122,0.4);">Motorcycle & ATV repair</span>
+          <span style="font-size:12px; color:var(--fog); background:rgba(26,74,122,0.2); padding:4px 10px; border:0.5px solid rgba(26,74,122,0.4);">Boat & watercraft maintenance</span>
+          <span style="font-size:12px; color:var(--fog); background:rgba(26,74,122,0.2); padding:4px 10px; border:0.5px solid rgba(26,74,122,0.4);">Heavy equipment operation basics</span>
+          <span style="font-size:12px; color:var(--fog); background:rgba(26,74,122,0.2); padding:4px 10px; border:0.5px solid rgba(26,74,122,0.4);">Appliance repair</span>
+        </div>
+
+        <div style="font-family:'IBM Plex Mono',monospace; font-size:9px; letter-spacing:0.2em; text-transform:uppercase; color:#6aadea; margin-bottom:10px;">Construction & Home</div>
+        <div style="display:flex; flex-wrap:wrap; gap:6px; margin-bottom:20px;">
+          <span style="font-size:12px; color:var(--fog); background:rgba(26,74,122,0.2); padding:4px 10px; border:0.5px solid rgba(26,74,122,0.4);">Carpentry, painting & home repair</span>
+          <span style="font-size:12px; color:var(--fog); background:rgba(26,74,122,0.2); padding:4px 10px; border:0.5px solid rgba(26,74,122,0.4);">Plumbing, electrical & HVAC</span>
+          <span style="font-size:12px; color:var(--fog); background:rgba(26,74,122,0.2); padding:4px 10px; border:0.5px solid rgba(26,74,122,0.4);">Drywall & insulation</span>
+          <span style="font-size:12px; color:var(--fog); background:rgba(26,74,122,0.2); padding:4px 10px; border:0.5px solid rgba(26,74,122,0.4);">Window & door installation</span>
+          <span style="font-size:12px; color:var(--fog); background:rgba(26,74,122,0.2); padding:4px 10px; border:0.5px solid rgba(26,74,122,0.4);">Rock, stone masonry, tile & flooring</span>
+          <span style="font-size:12px; color:var(--fog); background:rgba(26,74,122,0.2); padding:4px 10px; border:0.5px solid rgba(26,74,122,0.4);">Roofing & gutters</span>
+          <span style="font-size:12px; color:var(--fog); background:rgba(26,74,122,0.2); padding:4px 10px; border:0.5px solid rgba(26,74,122,0.4);">Welding & metal fabrication</span>
+          <span style="font-size:12px; color:var(--fog); background:rgba(26,74,122,0.2); padding:4px 10px; border:0.5px solid rgba(26,74,122,0.4);">Concrete & asphalt patching</span>
+          <span style="font-size:12px; color:var(--fog); background:rgba(26,74,122,0.2); padding:4px 10px; border:0.5px solid rgba(26,74,122,0.4);">Fence building & repair</span>
+          <span style="font-size:12px; color:var(--fog); background:rgba(26,74,122,0.2); padding:4px 10px; border:0.5px solid rgba(26,74,122,0.4);">Lock & key basics</span>
+          <span style="font-size:12px; color:var(--fog); background:rgba(26,74,122,0.2); padding:4px 10px; border:0.5px solid rgba(26,74,122,0.4);">Solar panel installation basics</span>
+        </div>
+
+        <div style="font-family:'IBM Plex Mono',monospace; font-size:9px; letter-spacing:0.2em; text-transform:uppercase; color:#6aadea; margin-bottom:10px;">Land, Agriculture & Environment</div>
+        <div style="display:flex; flex-wrap:wrap; gap:6px; margin-bottom:20px;">
+          <span style="font-size:12px; color:var(--fog); background:rgba(26,74,122,0.2); padding:4px 10px; border:0.5px solid rgba(26,74,122,0.4);">Agricultural skills, tractors & farm equipment</span>
+          <span style="font-size:12px; color:var(--fog); background:rgba(26,74,122,0.2); padding:4px 10px; border:0.5px solid rgba(26,74,122,0.4);">Irrigation & sprinkler systems</span>
+          <span style="font-size:12px; color:var(--fog); background:rgba(26,74,122,0.2); padding:4px 10px; border:0.5px solid rgba(26,74,122,0.4);">Lawn & landscaping services</span>
+          <span style="font-size:12px; color:var(--fog); background:rgba(26,74,122,0.2); padding:4px 10px; border:0.5px solid rgba(26,74,122,0.4);">Wildfire defensible space prep</span>
+          <span style="font-size:12px; color:var(--fog); background:rgba(26,74,122,0.2); padding:4px 10px; border:0.5px solid rgba(26,74,122,0.4);">Beekeeping & pollinator care</span>
+          <span style="font-size:12px; color:var(--fog); background:rgba(26,74,122,0.2); padding:4px 10px; border:0.5px solid rgba(26,74,122,0.4);">Water well & pump maintenance</span>
+          <span style="font-size:12px; color:var(--fog); background:rgba(26,74,122,0.2); padding:4px 10px; border:0.5px solid rgba(26,74,122,0.4);">Pest control basics</span>
+          <span style="font-size:12px; color:var(--fog); background:rgba(26,74,122,0.2); padding:4px 10px; border:0.5px solid rgba(26,74,122,0.4);">Pool & spa maintenance</span>
+          <span style="font-size:12px; color:var(--fog); background:rgba(26,74,122,0.2); padding:4px 10px; border:0.5px solid rgba(26,74,122,0.4);">Butchering & meat processing</span>
+          <span style="font-size:12px; color:var(--fog); background:rgba(26,74,122,0.2); padding:4px 10px; border:0.5px solid rgba(26,74,122,0.4);">Food preservation & canning</span>
+        </div>
+
+        <div style="font-family:'IBM Plex Mono',monospace; font-size:9px; letter-spacing:0.2em; text-transform:uppercase; color:#6aadea; margin-bottom:10px;">Community Service</div>
+        <div style="display:flex; flex-wrap:wrap; gap:6px;">
+          <span style="font-size:12px; color:var(--fog); background:rgba(26,74,122,0.2); padding:4px 10px; border:0.5px solid rgba(26,74,122,0.4);">Elder care & community check-ins</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- WHITE COLLAR -->
+    <div style="border:1px solid rgba(184,150,46,0.4); border-top:3px solid #b8962e; padding:0;">
+      <div style="padding:28px 32px 20px; border-bottom:1px solid rgba(255,255,255,0.06);">
+        <div style="font-family:'Oswald',sans-serif; font-size:20px; font-weight:600; text-transform:uppercase; letter-spacing:0.08em; color:var(--white); margin-bottom:4px;">White Collar Track</div>
+        <div style="font-family:'IBM Plex Mono',monospace; font-size:10px; letter-spacing:0.2em; color:var(--gold);">TECH, BUSINESS & CREATIVE SKILLS</div>
+      </div>
+
+      <div style="padding:20px 32px 28px;">
+        <div style="font-family:'IBM Plex Mono',monospace; font-size:9px; letter-spacing:0.2em; text-transform:uppercase; color:var(--gold); margin-bottom:10px;">Technology & Digital</div>
+        <div style="display:flex; flex-wrap:wrap; gap:6px; margin-bottom:20px;">
+          <span style="font-size:12px; color:var(--fog); background:rgba(184,150,46,0.12); padding:4px 10px; border:0.5px solid rgba(184,150,46,0.3);">Computer setup, repair & IT fundamentals</span>
+          <span style="font-size:12px; color:var(--fog); background:rgba(184,150,46,0.12); padding:4px 10px; border:0.5px solid rgba(184,150,46,0.3);">AI tools, automation & digital business</span>
+          <span style="font-size:12px; color:var(--fog); background:rgba(184,150,46,0.12); padding:4px 10px; border:0.5px solid rgba(184,150,46,0.3);">Coding fundamentals & cybersecurity</span>
+          <span style="font-size:12px; color:var(--fog); background:rgba(184,150,46,0.12); padding:4px 10px; border:0.5px solid rgba(184,150,46,0.3);">Drone operation & aerial photography</span>
+          <span style="font-size:12px; color:var(--fog); background:rgba(184,150,46,0.12); padding:4px 10px; border:0.5px solid rgba(184,150,46,0.3);">3D modeling & printing</span>
+          <span style="font-size:12px; color:var(--fog); background:rgba(184,150,46,0.12); padding:4px 10px; border:0.5px solid rgba(184,150,46,0.3);">Data analysis & spreadsheets</span>
+          <span style="font-size:12px; color:var(--fog); background:rgba(184,150,46,0.12); padding:4px 10px; border:0.5px solid rgba(184,150,46,0.3);">Supply chain & logistics basics</span>
+        </div>
+
+        <div style="font-family:'IBM Plex Mono',monospace; font-size:9px; letter-spacing:0.2em; text-transform:uppercase; color:var(--gold); margin-bottom:10px;">Creative & Media</div>
+        <div style="display:flex; flex-wrap:wrap; gap:6px; margin-bottom:20px;">
+          <span style="font-size:12px; color:var(--fog); background:rgba(184,150,46,0.12); padding:4px 10px; border:0.5px solid rgba(184,150,46,0.3);">Video editing, production & content creation</span>
+          <span style="font-size:12px; color:var(--fog); background:rgba(184,150,46,0.12); padding:4px 10px; border:0.5px solid rgba(184,150,46,0.3);">Social media strategy & marketing</span>
+          <span style="font-size:12px; color:var(--fog); background:rgba(184,150,46,0.12); padding:4px 10px; border:0.5px solid rgba(184,150,46,0.3);">Video game design & development</span>
+          <span style="font-size:12px; color:var(--fog); background:rgba(184,150,46,0.12); padding:4px 10px; border:0.5px solid rgba(184,150,46,0.3);">Music production & beat making</span>
+          <span style="font-size:12px; color:var(--fog); background:rgba(184,150,46,0.12); padding:4px 10px; border:0.5px solid rgba(184,150,46,0.3);">Podcast production & audio editing</span>
+          <span style="font-size:12px; color:var(--fog); background:rgba(184,150,46,0.12); padding:4px 10px; border:0.5px solid rgba(184,150,46,0.3);">Photography & photo editing</span>
+          <span style="font-size:12px; color:var(--fog); background:rgba(184,150,46,0.12); padding:4px 10px; border:0.5px solid rgba(184,150,46,0.3);">Animation & motion graphics</span>
+          <span style="font-size:12px; color:var(--fog); background:rgba(184,150,46,0.12); padding:4px 10px; border:0.5px solid rgba(184,150,46,0.3);">Graphic design & logo creation</span>
+          <span style="font-size:12px; color:var(--fog); background:rgba(184,150,46,0.12); padding:4px 10px; border:0.5px solid rgba(184,150,46,0.3);">Public speaking & storytelling</span>
+        </div>
+
+        <div style="font-family:'IBM Plex Mono',monospace; font-size:9px; letter-spacing:0.2em; text-transform:uppercase; color:var(--gold); margin-bottom:10px;">Business & Entrepreneurship</div>
+        <div style="display:flex; flex-wrap:wrap; gap:6px; margin-bottom:20px;">
+          <span style="font-size:12px; color:var(--fog); background:rgba(184,150,46,0.12); padding:4px 10px; border:0.5px solid rgba(184,150,46,0.3);">Starting & growing a business with AI</span>
+          <span style="font-size:12px; color:var(--fog); background:rgba(184,150,46,0.12); padding:4px 10px; border:0.5px solid rgba(184,150,46,0.3);">Financial literacy & entrepreneurship</span>
+          <span style="font-size:12px; color:var(--fog); background:rgba(184,150,46,0.12); padding:4px 10px; border:0.5px solid rgba(184,150,46,0.3);">Basic accounting & bookkeeping</span>
+          <span style="font-size:12px; color:var(--fog); background:rgba(184,150,46,0.12); padding:4px 10px; border:0.5px solid rgba(184,150,46,0.3);">E-commerce & online store setup</span>
+          <span style="font-size:12px; color:var(--fog); background:rgba(184,150,46,0.12); padding:4px 10px; border:0.5px solid rgba(184,150,46,0.3);">Program management & communication</span>
+          <span style="font-size:12px; color:var(--fog); background:rgba(184,150,46,0.12); padding:4px 10px; border:0.5px solid rgba(184,150,46,0.3);">Customer service & sales</span>
+          <span style="font-size:12px; color:var(--fog); background:rgba(184,150,46,0.12); padding:4px 10px; border:0.5px solid rgba(184,150,46,0.3);">Real estate fundamentals</span>
+        </div>
+
+        <div style="font-family:'IBM Plex Mono',monospace; font-size:9px; letter-spacing:0.2em; text-transform:uppercase; color:var(--gold); margin-bottom:10px;">Community & Legal</div>
+        <div style="display:flex; flex-wrap:wrap; gap:6px;">
+          <span style="font-size:12px; color:var(--fog); background:rgba(184,150,46,0.12); padding:4px 10px; border:0.5px solid rgba(184,150,46,0.3);">Grant writing & nonprofit administration</span>
+          <span style="font-size:12px; color:var(--fog); background:rgba(184,150,46,0.12); padding:4px 10px; border:0.5px solid rgba(184,150,46,0.3);">Nonprofit fundraising & development</span>
+          <span style="font-size:12px; color:var(--fog); background:rgba(184,150,46,0.12); padding:4px 10px; border:0.5px solid rgba(184,150,46,0.3);">Legal basics & tenant rights</span>
+          <span style="font-size:12px; color:var(--fog); background:rgba(184,150,46,0.12); padding:4px 10px; border:0.5px solid rgba(184,150,46,0.3);">Paralegal & legal document prep</span>
+          <span style="font-size:12px; color:var(--fog); background:rgba(184,150,46,0.12); padding:4px 10px; border:0.5px solid rgba(184,150,46,0.3);">Resume & interview coaching</span>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="badge-row reveal" style="margin-top:48px">
+    <div class="badge-step">
+      <span class="badge-icon">I</span>
+      <span class="badge-name">Apprentice Badge</span>
+      <span class="badge-desc">Learn the skill under supervision</span>
+    </div>
+    <div class="badge-arrow">→</div>
+    <div class="badge-step">
+      <span class="badge-icon">II</span>
+      <span class="badge-name">Journeyman Badge</span>
+      <span class="badge-desc">Perform the skill independently</span>
+    </div>
+    <div class="badge-arrow">→</div>
+    <div class="badge-step">
+      <span class="badge-icon">III</span>
+      <span class="badge-name">Corps Badge</span>
+      <span class="badge-desc">Teach it. Deploy it. Own it.</span>
+    </div>
+  </div>
+</section>
+
+<div class="rule"></div>
+
+<!-- MILITARY -->
+<section id="military">
+  <p class="section-label reveal">03 — Military Connection</p>
+  <h2 class="section-title reveal">Forged by those<br>who know what<br>it takes.</h2>
+  <div class="military-grid">
+    <div>
+      <p class="pull-quote reveal">A retired Special Forces soldier teaching a 12-year-old from an underserved community how to fix an engine isn't just transferring a skill. <em>He's transferring a standard.</em></p>
+      <p class="section-body reveal">The Proving Ground draws its spirit — and its mentors — from the military community. Veterans, especially those from special operations backgrounds, bring something no curriculum can teach: the lived experience of being forged under pressure into something greater than you thought you could be.</p>
+      <div class="vet-benefits reveal">
+        <div class="vet-item">
+          <div class="vet-dot"></div>
+          <div class="vet-text"><strong>Veteran Coach Program</strong> — retired service members placed inside each center as trade instructors and mentors, providing discipline, structure, and standards</div>
+        </div>
+        <div class="vet-item">
+          <div class="vet-dot"></div>
+          <div class="vet-text"><strong>SOCOM Partnership Lane</strong> — engagement with U.S. Special Operations Command, Special Operations Warrior Foundation, and affiliated veteran organizations</div>
+        </div>
+        <div class="vet-item">
+          <div class="vet-dot"></div>
+          <div class="vet-text"><strong>The HALO Badge</strong> — our highest merit badge tier, named in honor of the HALO community and the standard of excellence it represents</div>
+        </div>
+        <div class="vet-item">
+          <div class="vet-dot"></div>
+          <div class="vet-text"><strong>Post-Service Purpose</strong> — gives veterans a meaningful civilian mission that directly leverages their training and values</div>
+        </div>
+      </div>
+    </div>
+    <div class="rick-card reveal">
+      <div class="rick-card-label">◆ Founding Honor</div>
+      <div class="rick-card-name">Rick Asket</div>
+      <div class="rick-card-title">HALO Instructor · Combat Controller<br>U.S. Air Force Special Operations</div>
+      <div class="rick-card-body">Rick spent his career making others ready for whatever came next. A combat controller's mission is to be the bridge — calling in support, connecting resources to the people who need them on the ground. That is exactly what this foundation does for kids.</div>
+      <div class="rick-card-divider"></div>
+      <div class="center-one-label">◆ Center One</div>
+      <div class="center-one-name">The Rick Asket Center</div>
+      <div class="rick-card-body" style="margin-top:8px; font-size:14px;">Our founding location — a physical place where the next generation proves what they're made of, carrying forward a legacy of service, discipline, and belief in others.</div>
+    </div>
+  </div>
+</section>
+
+<div class="rule"></div>
+
+<!-- PARTNERS -->
+<section id="partners">
+  <p class="section-label reveal">04 — Partnerships</p>
+  <h2 class="section-title reveal">Built to attract<br>partners who<br>invest in people.</h2>
+  <p class="section-body reveal">The Proving Ground is designed as a platform. Industry partners fund certifications, provide equipment, staff coaching fellows, and create direct pipelines from our centers to real jobs and apprenticeships.</p>
+  <div class="partner-grid reveal">
+    <div class="partner-card gov">
+      <div class="partner-type">Government & Military</div>
+      <div class="partner-title">Public Sector</div>
+      <ul class="partner-list">
+        <li>HUD Community Development grants</li>
+        <li>USDA Rural Development funding</li>
+        <li>DOL Workforce Development grants</li>
+        <li>SOCOM veteran mentor pipeline</li>
+        <li>State & local facility partnerships</li>
+        <li>Special Operations Warrior Foundation</li>
+      </ul>
+    </div>
+    <div class="partner-card tech">
+      <div class="partner-type">Technology Industry</div>
+      <div class="partner-title">Tech & AI</div>
+      <ul class="partner-list">
+        <li>Microsoft — Azure certs & TEALS program</li>
+        <li>Google — Career Certificates & grants</li>
+        <li>AWS Educate youth program</li>
+        <li>CompTIA IT Fundamentals certifications</li>
+        <li>Salesforce Trailhead platform</li>
+        <li>aX Platform — AI agent literacy training</li>
+      </ul>
+    </div>
+    <div class="partner-card trades">
+      <div class="partner-type">Trades & Industry</div>
+      <div class="partner-title">Trades</div>
+      <ul class="partner-list">
+        <li>AutoZone / NAPA — parts & certifications</li>
+        <li>Home Depot — tools, materials & training</li>
+        <li>John Deere — agricultural equipment</li>
+        <li>HVAC & electrical trade associations</li>
+        <li>Local union apprenticeship programs</li>
+        <li>Farm Bureau rural community networks</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<div class="rule"></div>
+
+<!-- FACILITIES -->
+<section id="facilities">
+  <p class="section-label reveal">05 — Facilities</p>
+  <h2 class="section-title reveal">Buildings that<br>become anchors.</h2>
+  <p class="section-body reveal">Every Proving Ground center starts as an underutilized or surplus government building — acquired through purchase, lease, or public-private partnership — and is fully rehabilitated with modern infrastructure.</p>
+  <div class="facility-row reveal">
+    <div class="facility-card">
+      <div class="facility-num">01</div>
+      <div class="facility-title">The Rick Asket Center</div>
+      <div class="facility-body">Center One. Our founding location. Named in honor of HALO instructor and combat controller Rick Asket. A place where the spirit of preparation, discipline, and service lives in every wall. Targeting Yuma, AZ and the surrounding community.</div>
+    </div>
+    <div class="facility-card">
+      <div class="facility-num">02</div>
+      <div class="facility-title">Full Infrastructure Build-Out</div>
+      <div class="facility-body">Every center receives complete infrastructure investment: updated HVAC, computer labs, tool bays, vehicle bays, and safe community gathering spaces. Built to last. Built to serve multiple generations.</div>
+    </div>
+    <div class="facility-card">
+      <div class="facility-num">03</div>
+      <div class="facility-title">Replicable by Design</div>
+      <div class="facility-body">The model is built to scale nationally. Each new center follows the same acquisition, rehabilitation, and program framework — allowing rapid deployment into new distressed communities as funding grows.</div>
+    </div>
+    <div class="facility-card">
+      <div class="facility-num">04</div>
+      <div class="facility-title">Community Ownership</div>
+      <div class="facility-body">Centers are staffed by local hires, managed by program graduates, and deeply embedded in the communities they serve. Permanence and trust are the foundation. This isn't a program that disappears.</div>
+    </div>
+  </div>
+</section>
+
+<div class="rule"></div>
+
+<!-- CONTACT -->
+<section id="contact">
+  <p class="section-label reveal" style="justify-content:center">06 — Get Involved</p>
+  <h2 class="contact-title reveal">Ready to help<br><span style="color:var(--accent)">build this?</span></h2>
+  <p class="contact-sub reveal">We're seeking founding partners, veteran coaches, facility leads, and donors who believe every kid deserves a proving ground.</p>
+  <div class="hero-cta reveal" style="justify-content:center">
+    <a href="mailto:hdorn@digitaltransformations.com" class="btn-primary">Start the Conversation</a>
+  </div>
+  <div class="contact-info reveal">
+    <div class="contact-item">
+      <div class="contact-item-label">Founder</div>
+      <div class="contact-item-value">Heath Dorn</div>
+    </div>
+    <div class="contact-item">
+      <div class="contact-item-label">Phone</div>
+      <div class="contact-item-value">206-972-0483</div>
+    </div>
+    <div class="contact-item">
+      <div class="contact-item-label">Email</div>
+      <div class="contact-item-value">hdorn@digitaltransformations.com</div>
+    </div>
+    <div class="contact-item">
+      <div class="contact-item-label">Affiliated With</div>
+      <div class="contact-item-value">Digital Transformations LLC</div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer style="flex-direction:column; gap:24px; text-align:center;">
+  <div style="display:flex; justify-content:center; align-items:center; gap:12px;">
+    <span style="font-family:'IBM Plex Mono',monospace; font-size:10px; letter-spacing:0.25em; text-transform:uppercase; color:var(--mist);">Sponsored By</span>
+  </div>
+  <div style="display:flex; justify-content:center; align-items:center; gap:48px; flex-wrap:wrap;">
+    <a href="https://digitaltransformations.com" target="_blank" style="font-family:'Oswald',sans-serif; font-size:16px; font-weight:600; color:var(--gold); text-decoration:none; letter-spacing:0.05em; transition:opacity 0.2s;" onmouseover="this.style.opacity='0.7'" onmouseout="this.style.opacity='1'">DigitalTransformations.com</a>
+    <span style="color:rgba(255,255,255,0.15);">·</span>
+    <a href="https://fulcrumdefense.ai" target="_blank" style="font-family:'Oswald',sans-serif; font-size:16px; font-weight:600; color:var(--fog); text-decoration:none; letter-spacing:0.05em; transition:opacity 0.2s;" onmouseover="this.style.opacity='0.7'" onmouseout="this.style.opacity='1'">FulcrumDefense.ai</a>
+    <span style="color:rgba(255,255,255,0.15);">·</span>
+    <a href="https://ax-platform.com" target="_blank" style="font-family:'Oswald',sans-serif; font-size:16px; font-weight:600; color:var(--accent); text-decoration:none; letter-spacing:0.05em; transition:opacity 0.2s;" onmouseover="this.style.opacity='0.7'" onmouseout="this.style.opacity='1'">aX-Platform.com</a>
+  </div>
+  <div style="height:1px; background:rgba(255,255,255,0.06); width:100%;"></div>
+  <div style="display:flex; justify-content:space-between; align-items:center; width:100%; flex-wrap:wrap; gap:12px;">
+    <div class="footer-left">© 2026 The Proving Ground Foundation &nbsp;·&nbsp; Concept Stage &nbsp;·&nbsp; Henderson, NV</div>
+    <div class="footer-right">A <a href="https://digitaltransformations.com">Digital Transformations LLC</a> initiative</div>
+  </div>
+</footer>
+
+<script>
+  // Scroll reveal
+  const reveals = document.querySelectorAll('.reveal');
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach((entry, i) => {
+      if (entry.isIntersecting) {
+        setTimeout(() => entry.target.classList.add('visible'), i * 80);
+        observer.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
+  reveals.forEach(el => observer.observe(el));
+
+  // Active nav link
+  const sections = document.querySelectorAll('section[id]');
+  const navLinks = document.querySelectorAll('.nav-links a');
+  window.addEventListener('scroll', () => {
+    let current = '';
+    sections.forEach(s => {
+      if (window.scrollY >= s.offsetTop - 100) current = s.id;
+    });
+    navLinks.forEach(a => {
+      a.style.color = a.getAttribute('href') === '#' + current ? 'var(--white)' : '';
+    });
+  });
+</script>
+</body>
+</html>
